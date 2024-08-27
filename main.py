@@ -37,7 +37,7 @@ async def mines(interaction: discord.Interaction, tile_amt: int, round_id: str):
 
     if len(round_id) == 36:
         start_time = time.time()
-        grid = ['❌'] * 25
+        grid = ['💣'] * 25
         already_used = []
 
         count = 0
@@ -46,7 +46,7 @@ async def mines(interaction: discord.Interaction, tile_amt: int, round_id: str):
             if a in already_used:
                 continue
             already_used.append(a)
-            grid[a] = '✅'
+            grid[a] = '💎'
             count += 1
 
         chance = random.randint(45, 95)
