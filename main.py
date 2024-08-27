@@ -1,9 +1,27 @@
 import discord
 import time
-from discord import app_commands 
+from discord import app_commands
 import random
-import os  # Toegevoegd om de omgevingsvariabelen te gebruiken
+import os
 
+# Keep-alive script om de bot wakker te houden
+from flask import Flask
+from threading import Thread
+
+app = Flask('')
+
+@app.route('/')
+def home():
+    return "I'm alive"
+
+def run():
+    app.run(host='0.0.0.0', port=8080)
+
+def keep_alive():
+    t = Thread(target=run)
+    t.start()
+
+# Client class voor de bot
 class aclient(discord.Client):
     def __init__(self):
         super().__init__(intents=discord.Intents.default())
@@ -66,6 +84,9 @@ async def mines(interaction: discord.Interaction, tile_amt: int, round_id: str):
         em = discord.Embed(color=0xff0000)
         em.add_field(name='Error', value="Invalid round id")
         await interaction.response.send_message(embed=em)
+
+# Start de keep-alive functie om te zorgen dat de bot wakker blijft
+keep_alive()
 
 # Haal het token op uit een omgevingsvariabele
 client.run(os.getenv('DISCORD_TOKEN'))
